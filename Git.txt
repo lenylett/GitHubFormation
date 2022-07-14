@@ -1,0 +1,79 @@
+Bases de Git
+
+- Définition : c'est un outil/logiciel qui permet de contrôler les versions d'un projet informatique
+
+- On le télécharge depuis le site officiel de Git
+- Il faut créer un espace (un repository) qui contient l'ensemble des fichiers du projet qui sera partagé avec les membres du projet
+- On créé un nouvel espace sur Git Hub et le configure
+- On rentre des commandes pour envoyer/recevoir/ajour de nouveaux ficiers à l'expace de travail :
+$ git clone urlDuProjet : cela créé une copie du projet sur le PC
+- Changer de répertoire : $cd NomDossier
+- Ajout du nouveau fichier : $ git add + nomDuFichier (ajoute tous les nouveaux fichiers)
+ou $ git add * (pour tous les fichiers)
+$ git add -A : ajouter les nouveaux fichiers
+Les fichiers seront ajoutés à une liste temporaire/d'attente en attente d'envoi
+- Commit : c'est une boite qui contient tous les changements d'une version
+ $ git commit - m "Informations" : c'est un message qui informe des changements
+- Envoyer le pack en ligne : $ git push
+Le push, ça publie une nouvelle version qui s'ajoute à une ligne temporelle sans écraser les autres versions : c'est une branche
+Cette ligne, c'est une branche. La branche Master, c'est la branche générée à la création du projet, qui comportera le projet final.
+Tant que le projet n'est pas terminé, rien ne doit aller sur la branche Master
+On peut créer des branches (par exemple, pour la partie dév) :
+$ git branch NomBranche : création d'une nouvelle branche
+$ git checkout NomBranche : se positionner sur la branche
+$ git push --set-upstream origin NomBranche : pour envoyer cette nouvelle branche qui est en locale sur le dépot en ligne
+
+L'autre utilisateur doit faire :
+$ git fetch : fonctionne comme "git pool" mais ça récupère tous les éléments du dépôt en ligne (ça évite de suprimer le dossier et faire un git clone)
+$ git checkout NomBranche : se placer sur la branche et continuer son travaille sur cette branche
+Si 2 utilisateurs travaillent sur la même branche et font des commit, ils vont perdre le travail de l'autre. Chaque utilisateur doit travailer sur sa propre branche et devoir faire un "$ git merge" à la fin pour fusionner leur commit en un seul et le déporter sur leur branche NomBranche 
+Une première version du projet est ainsi publiée. un git erge est enfin nécessaire pour envoyer le projet de la branche NomBranche à master
+
+Il y aura donc une copie en locale + une copie en ligne partagée. Ca crée une nouvelle version actualisée du projet
+- Si des modifs sont effectuées sur le même fichier par 2 utilisateurs, il peut y avoir des conflits et valider les changements
+
+---------------------------------------------------
+Git est un outil de versioning qui permet de retracer l'historique des différentes versions d'un projet
+- On installe Git
+- On ouvre un terminal et on va passer des lignes de commande (cmd)
+- Pour voir si Git a été correctement installé : git --version (si tout s'est bien passé, on a une réponse : "git version + numVersion"
+- Il faut faire un paramétrage avant pour dire qui on est :
+     git config --global user.name "Mon Nom"
+     git config --global user.email "MonAdresseEmail@gmail.com"
+- Commandes de base :
+     - on créé un répertoire : mkdir landingPage
+     - on rentre dans le répertoire : cd landingPage/ (on est now dans le projet)
+     - on initialise git pour pouvoir l'utiliser : git init
+     - A tout moment, on peut lui demander où on est dans le projet : git status (sur quele branche on est, s'il y a des commits)
+     - On modifie notre document
+- Le commit
+Pour enregistrer le projet actuel, il faut 2 étapes : sélectionner les fichiers et dire à git de prendre une photo. 2 étapes :
+     - on sélectionnne les fichiers : git add NomDuFichier
+     - On prend une photo : git commit -m "Premier commit" (texte explicatif)
+On peut faire des modifs et reprendre une photo (faire à nouveau un "git add" puis "git commit")
+- Git log affiche l'historique des changements du + récent au + ancien (nom de la personne, date et explications)
+- Branche : c'est une copie du projet initiale sur laquelle on va travailler, on peut la supprimer ou rapatrier les changements dans le projet initial
+     - Créer une branche sur Git : git branch NomDeLaBranche (le nom de la branche doit faire référence à la fonctionnalité apportée pour s'y retrouver)
+     - La branche Master, c'est la branche principale du projet initiale
+     - Liste des branches : git branch
+     - Pour se placer sur une branche : git checkout NomDeLaBranche (on se place sur la branche sur laquelle on veut appliquer des modifications)
+- Pour rapatrier les changements sur la branche principale, 3 étapes :
+     - 1) Basculer sur la branche qui va recevoir les modifications (la branche Master) : git checkout Master
+     - 2) On demande à Git de rapatrier le travail de la branche pour la fusionner sur la branche Master : git merge NomDeLaBranche (avec un git log on peut voir si tout est OK)
+     - 3) Etape facultative : Supprimer la branche quand on a fini de travailler dessus (pour éviter de garder trop de branches) : git branch -d NomDeLaBrancheASupprimer
+     On peut s'assurer que la branche a été supprimée en faisant un git branch et on obtient que la branche Master
+- Depot distant : pour collaborer avec plusieurs utilisateurs 
+Le dépot distant permet de déposer le projet à un endroit accessible ("le dépot distant") et les utilisateurs viendront le récupérer. L'endroit sur lequel on vient de travailler, c'est le "dépot local".
+- Git hub est une plateforme web (qui propose une interface web conviviale pour naviguer dans le projet) qui permet de créer ce dépot distant
+     - Il faut créer un compte, on ajoute un descriptif, privé est payant (publique : le code source est publique)
+     - Il faut créer un pont entre le dépot distant et le dépot local, pour pouvoir envoyer le projet. Ce pont se fait avec la commande : "git remote add origin UrlDuDepotQueGitHubACréé".
+Pour vérifier le dépot distant du projet : "git remote" (réponse renvoyée : le dépot distant "origin")
+- Pour envoyer le projet sur le dépot créé : "git push origin master" ("Master" c'est la branche principale)
+Si on regarde sur le dépot crée, le projet est présent
+- Récupération du projet par les collaborateurs : 
+     - Ils se branchent sur le projet : "git remote add UrlDuDepotDistant"
+     - Puis ils rapatrient le projet depuis le dépot distant vers leur dépot local : git pull origin master
+     - Ils vont faire des modifications sur le fichier (et avoir un compte git hub avec un accès en écriture fourni par le propriétaire du fichier qui va donner des accès/droits), sur Git Hub (onglet "Settings > Collaborators > Ajout des noms + Add collaborator". Ils pourront alors faire des modifications avec "git push origin master" pour rapatrier les modifications sur le dépot distant et récupérer le projet modifié "git pull origin master"
+
+
+
